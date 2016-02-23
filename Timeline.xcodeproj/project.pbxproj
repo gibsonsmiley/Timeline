@@ -25,6 +25,8 @@
 		F0F4D26E1C7D0656008793B9 /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F4D26D1C7D0656008793B9 /* Like.swift */; };
 		F0F4D2701C7D06F6008793B9 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F4D26F1C7D06F6008793B9 /* Post.swift */; };
 		F0F4D2731C7D0888008793B9 /* UserController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F4D2721C7D0888008793B9 /* UserController.swift */; };
+		F0F4D2751C7D15E6008793B9 /* PostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F4D2741C7D15E6008793B9 /* PostController.swift */; };
+		F0F4D2771C7D1A79008793B9 /* ImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0F4D2761C7D1A79008793B9 /* ImageController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +71,8 @@
 		F0F4D26D1C7D0656008793B9 /* Like.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Like.swift; sourceTree = "<group>"; };
 		F0F4D26F1C7D06F6008793B9 /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		F0F4D2721C7D0888008793B9 /* UserController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserController.swift; sourceTree = "<group>"; };
+		F0F4D2741C7D15E6008793B9 /* PostController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostController.swift; sourceTree = "<group>"; };
+		F0F4D2761C7D1A79008793B9 /* ImageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +182,8 @@
 			isa = PBXGroup;
 			children = (
 				F0F4D2721C7D0888008793B9 /* UserController.swift */,
+				F0F4D2741C7D15E6008793B9 /* PostController.swift */,
+				F0F4D2761C7D1A79008793B9 /* ImageController.swift */,
 			);
 			name = "Model Controllers";
 			sourceTree = "<group>";
@@ -318,12 +324,14 @@
 				F0F4D2631C7D0146008793B9 /* AddPhotoTableViewController.swift in Sources */,
 				F0F4D2701C7D06F6008793B9 /* Post.swift in Sources */,
 				F0B2307A1C7CFAB400946951 /* TimelineTableViewController.swift in Sources */,
+				F0F4D2771C7D1A79008793B9 /* ImageController.swift in Sources */,
 				F0F4D2731C7D0888008793B9 /* UserController.swift in Sources */,
 				01E3FC251BE92C7600187536 /* AppDelegate.swift in Sources */,
 				F0F4D26C1C7D051E008793B9 /* Comment.swift in Sources */,
 				F0F4D26A1C7D0429008793B9 /* User.swift in Sources */,
 				F0F4D2611C7CFE61008793B9 /* ProfileViewController.swift in Sources */,
 				F0F4D26E1C7D0656008793B9 /* Like.swift in Sources */,
+				F0F4D2751C7D15E6008793B9 /* PostController.swift in Sources */,
 				F0F4D25F1C7CFD55008793B9 /* UserSearchTableViewController.swift in Sources */,
 				F0B2307C1C7CFB0400946951 /* PostDetailTableViewController.swift in Sources */,
 			);
