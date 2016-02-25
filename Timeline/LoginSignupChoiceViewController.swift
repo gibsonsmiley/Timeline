@@ -21,6 +21,13 @@ class LoginSignupChoiceViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "signUp" {
+            LoginSignupViewController.ViewMode.Signup
+        } else {
+            LoginSignupViewController.ViewMode.Login
+        }
+    }
 
     /*
     // MARK: - Navigation

@@ -10,6 +10,13 @@ import UIKit
 
 class TimelineTableViewController: UITableViewController {
 
+    override func viewWillAppear(animated: Bool) {
+        if UserController.currentUser == nil {
+            performSegueWithIdentifier("signupLoginModalSegue", sender: self)
+//            presentViewController(LoginSignupChoiceViewController!, animated: true, completion: nil)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
