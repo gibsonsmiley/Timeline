@@ -23,9 +23,11 @@ class LoginSignupChoiceViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "signUp" {
-            LoginSignupViewController.ViewMode.Signup
+            let destinationView = segue.destinationViewController as? LoginSignupViewController
+            destinationView?.mode = .Signup
         } else {
-            LoginSignupViewController.ViewMode.Login
+            let destinationView = segue.destinationViewController as? LoginSignupViewController
+            destinationView?.mode = .Login
         }
     }
 

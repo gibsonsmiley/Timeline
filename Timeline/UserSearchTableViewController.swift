@@ -8,16 +8,57 @@
 
 import UIKit
 
-class UserSearchTableViewController: UITableViewController {
+class UserSearchTableViewController: UITableViewController, UISearchResultsUpdating {
+    
+    @IBOutlet weak var modeSegmentedControl: UISegmentedControl!
+    
+    var searchController: UISearchController!
+    
+    enum ViewMode: Int {
+        case Friends
+        case All
+        
+        func users(completion: (users: [User]?) -> Void) {
+            switch self {
+            case .All:
+                UserController.fetchAllUsers({ (user) -> Void in
+                    completion(users: user)
+                })
+            case .Friends:
+                UserController.followedByUser(UserController.currentUser, completion: { (followed) -> Void in
+                    completion(users: followed)
+                })
+            }
+        }
+    }
+    
+    var mode: ViewMode {
+        get {
+            return ViewMode(rawValue: modeSegmentedControl.selectedSegmentIndex)!
+        }
+    }
+    
+    var usersDataSource: [User] = []
+    
+    func updateViewBasedOnMode() {
+        mode.users { (users) -> Void in
+            if let users = users {
+                self.usersDataSource = users
+            } else {
+                self.usersDataSource = []
+            }
+        }
+        tableView.reloadData()
+    }
 
+    @IBAction func selectedIndexChanged(sender: AnyObject) {
+        updateViewBasedOnMode()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        setUpSearchController()
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,18 +75,42 @@ class UserSearchTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return usersDataSource.count
     }
 
-    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("searchCell", forIndexPath: indexPath)
 
-        // Configure the cell...
+        let user = usersDataSource[indexPath.row]
+        
+        cell.textLabel?.text = user.username
 
         return cell
     }
-    */
+    
+    func setUpSearchController() {
+        let resultsController = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("userSearchResultsTableViewController")
+        
+        searchController = UISearchController(searchResultsController: resultsController)
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.sizeToFit()
+        searchController.hidesNavigationBarDuringPresentation = true
+        
+        tableView.tableHeaderView = searchController.searchBar
+        
+        definesPresentationContext = true
+    }
+    
+    func updateSearchResultsForSearchController(searchController: UISearchController) {
+        let searchTerm = searchController.searchBar.text ?? ""
+        let lowercaseSearchTerm = searchTerm.lowercaseString
+        
+        if let resultsController = searchController.searchResultsController as? UserSearchResultsTableViewController {
+            resultsController.usersResultsDataSource = usersDataSource.filter({ $0.username.lowercaseString.containsString(lowercaseSearchTerm) })
+            
+            resultsController.tableView.reloadData()
+        }
+    }
 
     /*
     // Override to support conditional editing of the table view.
@@ -82,14 +147,35 @@ class UserSearchTableViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "searchCell" {
+            
+            var selectedUser: User
+            
+            let cell = sender as! UITableViewCell
+            
+            if let indexPath = (searchController.searchResultsController as! UserSearchResultsTableViewController).tableView.indexPathForCell(cell) {
+                let filteredUsers = (searchController.searchResultsController as! UserSearchResultsTableViewController).usersResultsDataSource
+                
+                selectedUser = filteredUsers[indexPath.row]
+            } else {
+                let allUsers = usersDataSource
+                
+                let allUsersIndexPath = tableView.indexPathForCell(cell)!
+                
+                selectedUser = allUsers[allUsersIndexPath.row]
+            }
+        }
     }
-    */
-
 }
+
+
+
+
+
+
+
+
+

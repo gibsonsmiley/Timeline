@@ -89,6 +89,9 @@
                                 <segment title="Friends"/>
                                 <segment title="Add Friend"/>
                             </segments>
+                            <connections>
+                                <action selector="selectedIndexChanged:" destination="Kzu-jq-ksJ" eventType="valueChanged" id="4C6-Vw-bca"/>
+                            </connections>
                         </segmentedControl>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchCell" id="hPz-Ml-AjA">
@@ -109,6 +112,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="Yqm-uT-EnC"/>
+                    <connections>
+                        <outlet property="modeSegmentedControl" destination="hGU-wh-s3y" id="6bM-gJ-FnA"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tad-E0-57W" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -141,6 +147,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ag1-1Z-FDW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3496" y="842"/>
+        </scene>
+        <!--User Search Results Table View Controller-->
+        <scene sceneID="sui-B7-7IP">
+            <objects>
+                <tableViewController storyboardIdentifier="userSearchResultsTableViewController" id="CZG-oh-KgG" customClass="UserSearchResultsTableViewController" customModule="Timeline" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="hhk-U9-SW2">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchResultCell" id="3YB-aq-Xhd">
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3YB-aq-Xhd" id="xfB-hr-hzq">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="CZG-oh-KgG" id="KuD-Um-Cp9"/>
+                            <outlet property="delegate" destination="CZG-oh-KgG" id="XeD-iH-ybQ"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uQT-o8-sQT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3509" y="1604"/>
         </scene>
         <!--Profile View Controller-->
         <scene sceneID="VRK-is-N0y">
@@ -414,7 +448,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="m4G-kz-8lb"/>
         <segue reference="0Rh-EK-YpI"/>
+        <segue reference="TDU-CX-l2J"/>
     </inferredMetricsTieBreakers>
 </document>
