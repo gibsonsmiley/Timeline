@@ -12,6 +12,7 @@ import SafariServices
 class ProfileViewController: UIViewController, UICollectionViewDataSource, ProfileHeaderCollectionReusableViewDelegate {
     
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var editBarButton: UIBarButtonItem!
     
     var user: User?
     var userPosts: [Post] = []
@@ -20,9 +21,15 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, Profi
         super.viewDidLoad()
         if self.user == nil {
             self.user = UserController.currentUser
+            editBarButton.enabled = true
         }
+        updatebasedOnUser()
     }
 
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -36,7 +43,9 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, Profi
             } else {
                 self.userPosts = []
             }
-            self.collectionView.reloadData()
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.collectionView.reloadData()
+            })
         }
     }
     

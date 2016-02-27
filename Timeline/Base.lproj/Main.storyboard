@@ -275,7 +275,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="DM2-IC-zjz">
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="dA5-JE-LEh">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" systemItem="edit" id="dA5-JE-LEh">
                             <connections>
                                 <segue destination="0dd-EG-xAf" kind="presentation" identifier="toEditProfile" id="Cch-f8-kRN"/>
                             </connections>
@@ -283,6 +283,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="qpk-u1-KX3" id="B8M-qg-ffR"/>
+                        <outlet property="editBarButton" destination="dA5-JE-LEh" id="ml4-Ym-WRL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yRa-rH-I9S" userLabel="First Responder" sceneMemberID="firstResponder"/>
