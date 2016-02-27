@@ -43,6 +43,10 @@ class UserSearchResultsTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let tappedCell = tableView.cellForRowAtIndexPath(indexPath)
+        presentingViewController?.performSegueWithIdentifier("toProfileView", sender: tappedCell)
+    }
 
 
     /*

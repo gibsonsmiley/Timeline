@@ -158,14 +158,16 @@ class UserSearchTableViewController: UITableViewController, UISearchResultsUpdat
             
             if let indexPath = (searchController.searchResultsController as! UserSearchResultsTableViewController).tableView.indexPathForCell(cell) {
                 let filteredUsers = (searchController.searchResultsController as! UserSearchResultsTableViewController).usersResultsDataSource
-                
                 selectedUser = filteredUsers[indexPath.row]
             } else {
                 let allUsers = usersDataSource
-                
                 let allUsersIndexPath = tableView.indexPathForCell(cell)!
-                
                 selectedUser = allUsers[allUsersIndexPath.row]
+            }
+            
+            if let destinationViewController = segue.destinationViewController as? ProfileViewController {
+                _ = destinationViewController.view
+//                destinationViewController.updateWith(user) // pretty sure this needs to get implemented at one point
             }
         }
     }

@@ -24,6 +24,10 @@ class ProfileViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func updateWith(user: User) {
+        self.user = user
+        
+    }
 
     /*
     // MARK: - Navigation
