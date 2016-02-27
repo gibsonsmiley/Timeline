@@ -26,25 +26,44 @@ class LoginSignupViewController: UIViewController {
     enum ViewMode {
         case Login
         case Signup
+        case Edit
     }
     
     var mode: ViewMode = .Signup
     var fieldsAreValid: Bool {
         get {
-            if mode == .Login {
-                if emailtextField.text?.isEmpty == true || passwordTextField.text?.isEmpty == true {
-                    return false
-                } else {
-                    return true
-                }
-            } else {
-                if emailtextField.text?.isEmpty == true || passwordTextField.text?.isEmpty == true || usernameTextField.text?.isEmpty == true {
-                    return false
-                } else {
-                    return true
-                }
+            switch mode {
+            case .Login: return (emailtextField.text!.isEmpty || passwordTextField.text!.isEmpty)
+            case .Signup: return (emailtextField.text!.isEmpty || passwordTextField.text!.isEmpty || usernameTextField.text!.isEmpty)
+            case .Edit: return (usernameTextField.text!.isEmpty)
             }
+//            if mode == .Login {
+//                if emailtextField.text?.isEmpty == true || passwordTextField.text?.isEmpty == true {
+//                    return false
+//                } else {
+//                    return true
+//                }
+//            } else if mode == .Signup {
+//                if emailtextField.text?.isEmpty == true || passwordTextField.text?.isEmpty == true || usernameTextField.text?.isEmpty == true {
+//                    return false
+//                } else {
+//                    return true
+//                }
+//            } else if mode == .Edit {
+//                if usernameTextField.text?.isEmpty == true {
+//                    return false
+//                } else {
+//                    return true
+//                }
+//            }
         }
+    }
+    
+    var user: User?
+    
+    func updateWithUser(user: User){
+        self.user = UserController.currentUser
+        mode = .Edit
     }
 
     func updateViewBasedOnMode() {
@@ -56,6 +75,15 @@ class LoginSignupViewController: UIViewController {
             loginSignupButton.titleLabel?.text = "Log In"
         case .Signup:
             loginSignupButton.titleLabel?.text = "Sign Up"
+        case .Edit:
+            if let user = self.user {
+            usernameTextField.text = user.username
+            bioTextField.text = user.bio
+            websiteTextField.text = user.url
+            }
+            loginSignupButton.titleLabel?.text = "Save changes"
+            emailtextField.hidden = true
+            passwordTextField.hidden = true
         }
     }
     
@@ -63,7 +91,7 @@ class LoginSignupViewController: UIViewController {
         if fieldsAreValid != false {
             dismissViewControllerAnimated(true, completion: nil)
         } else {
-            createAlert("All fields are required to sign up", success: false)
+            createAlert("A username, email, and password are all required to create an account.", success: false)
         }
     }
     func createAlert(alertMessage: String, success: Bool) {

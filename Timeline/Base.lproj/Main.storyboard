@@ -189,9 +189,101 @@
                     <view key="view" contentMode="scaleToFill" id="W5e-ON-gDQ">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qpk-u1-KX3">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jJ4-Ug-7De">
+                                    <size key="itemSize" width="125" height="125"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="50" height="125"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="imageCell" id="ng0-Lp-X5d" customClass="ImageCollectionViewCell" customModule="Timeline" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="64" width="125" height="125"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nPk-bk-pOV">
+                                                    <rect key="frame" x="0.0" y="-1" width="125" height="126"/>
+                                                </imageView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <connections>
+                                            <outlet property="imageView" destination="nPk-bk-pOV" id="YQP-wc-gaZ"/>
+                                            <segue destination="H3L-Uy-34Z" kind="show" identifier="profileToDetail" id="aSV-3N-UIL"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="headerView" id="Vj2-u0-jTd" customClass="ProfileHeaderCollectionReusableView" customModule="Timeline" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="189" width="600" height="125"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="kGY-Gc-Rnx">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="125"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5NM-Un-Dtj" userLabel="Bio">
+                                                    <rect key="frame" x="0.0" y="0.0" width="200" height="125"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="370-uY-OyP" userLabel="Homepage">
+                                                    <rect key="frame" x="200" y="0.0" width="200" height="125"/>
+                                                    <state key="normal" title="URL"/>
+                                                    <connections>
+                                                        <action selector="urlButtonTapped:" destination="Vj2-u0-jTd" eventType="touchUpInside" id="j9L-wM-5za"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SIA-8H-Oyi" userLabel="Follow">
+                                                    <rect key="frame" x="400" y="0.0" width="200" height="125"/>
+                                                    <state key="normal" title="Follow"/>
+                                                    <connections>
+                                                        <action selector="followActionButton:" destination="Vj2-u0-jTd" eventType="touchUpInside" id="QFw-he-eWJ"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="kGY-Gc-Rnx" secondAttribute="trailing" id="21b-d2-m0e"/>
+                                        <constraint firstItem="kGY-Gc-Rnx" firstAttribute="leading" secondItem="Vj2-u0-jTd" secondAttribute="leading" id="Jyq-r8-diK"/>
+                                        <constraint firstItem="kGY-Gc-Rnx" firstAttribute="top" secondItem="Vj2-u0-jTd" secondAttribute="top" id="p6f-Si-0mP"/>
+                                        <constraint firstAttribute="bottom" secondItem="kGY-Gc-Rnx" secondAttribute="bottom" id="tBN-OC-D9Q"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="bioLabel" destination="5NM-Un-Dtj" id="Tfu-wx-6Ir"/>
+                                        <outlet property="followButton" destination="SIA-8H-Oyi" id="zI3-k9-wTw"/>
+                                        <outlet property="urlButton" destination="370-uY-OyP" id="Ms0-8b-mw1"/>
+                                    </connections>
+                                </collectionReusableView>
+                                <connections>
+                                    <outlet property="dataSource" destination="JNC-cV-avi" id="4WZ-Qd-ezC"/>
+                                    <outlet property="delegate" destination="JNC-cV-avi" id="gA7-Wq-yOt"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="qpk-u1-KX3" firstAttribute="bottom" secondItem="SCl-Ef-pZZ" secondAttribute="top" id="15p-x6-hlS"/>
+                            <constraint firstItem="qpk-u1-KX3" firstAttribute="leading" secondItem="W5e-ON-gDQ" secondAttribute="leading" id="b7Z-DA-Sdb"/>
+                            <constraint firstAttribute="trailing" secondItem="qpk-u1-KX3" secondAttribute="trailing" id="fe3-rf-BIx"/>
+                            <constraint firstItem="qpk-u1-KX3" firstAttribute="top" secondItem="N8y-LE-QVA" secondAttribute="bottom" id="lhF-zz-grd"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="DM2-IC-zjz"/>
+                    <navigationItem key="navigationItem" id="DM2-IC-zjz">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="dA5-JE-LEh">
+                            <connections>
+                                <segue destination="0dd-EG-xAf" kind="presentation" identifier="toEditProfile" id="Cch-f8-kRN"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="collectionView" destination="qpk-u1-KX3" id="B8M-qg-ffR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yRa-rH-I9S" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -450,7 +542,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="0Rh-EK-YpI"/>
-        <segue reference="TDU-CX-l2J"/>
+        <segue reference="m4G-kz-8lb"/>
+        <segue reference="aSV-3N-UIL"/>
+        <segue reference="Cch-f8-kRN"/>
     </inferredMetricsTieBreakers>
 </document>
