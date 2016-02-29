@@ -8,8 +8,14 @@
 
 import UIKit
 
-class AddPhotoTableViewController: UITableViewController {
+class AddPhotoTableViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 
+    @IBOutlet weak var captionTextField: UITextField!
+    @IBOutlet weak var addPhotoButton: UIButton!
+    
+    var image: UIImage?
+    var caption: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -25,17 +31,64 @@ class AddPhotoTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func addPhotoButtonTapped(sender: AnyObject) {
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        
+        let alert = UIAlertController(title: "Select Photo Option", message: nil, preferredStyle: .ActionSheet)
+        if UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) {
+            alert.addAction(UIAlertAction(title: "Camera Roll", style: .Default, handler: { (_) -> Void in
+                imagePicker.sourceType = .PhotoLibrary
+                self.presentViewController(imagePicker, animated: true, completion: nil)
+            }))
+        }
+        if UIImagePickerController.isSourceTypeAvailable(.Camera) {
+            alert.addAction(UIAlertAction(title: "Camera", style: .Default, handler: { (_) -> Void in
+                imagePicker.sourceType = .Camera
+                self.presentViewController(imagePicker, animated: true, completion: nil)
+            }))
+        }
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        caption = captionTextField.text
+        captionTextField.resignFirstResponder()
+        return true
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        let image = info[UIImagePickerControllerOriginalImage] as? UIImage
+        
+        self.image = image
+        addPhotoButton.setBackgroundImage(image, forState: .Normal)
+        addPhotoButton.setTitle("", forState: .Normal)
+        
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    
+    @IBAction func saveButtonTapped(sender: AnyObject) {
+        if let image = self.image {
+            if self.image != nil {
+                PostController.addPost(image, caption: self.caption, completion: { (success, post) -> Void in
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                    })
+                }
+            }
+        }
+    
+    
+    }
+    
+    
+    
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
-    }
+
+
 
     /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -92,4 +145,4 @@ class AddPhotoTableViewController: UITableViewController {
     }
     */
 
-}
+

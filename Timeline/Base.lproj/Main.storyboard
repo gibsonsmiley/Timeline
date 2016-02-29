@@ -6,33 +6,55 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Add Photo Table View Controller-->
+        <!--Add Photo-->
         <scene sceneID="kLs-VN-V5g">
             <objects>
                 <tableViewController id="xkl-Tj-s5b" customClass="AddPhotoTableViewController" customModule="Timeline" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="5Od-ju-c30">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="5Od-ju-c30">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="addPhotoCell" id="VhM-Lt-ii3">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VhM-Lt-ii3" id="xMm-1J-3uD">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
+                        <button key="tableHeaderView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="aKb-ea-9Ig">
+                            <rect key="frame" x="0.0" y="64" width="600" height="355"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="50"/>
+                            <state key="normal" title="Add Photo"/>
+                            <connections>
+                                <action selector="addPhotoButtonTapped:" destination="xkl-Tj-s5b" eventType="touchUpInside" id="x8w-kF-Kui"/>
+                            </connections>
+                        </button>
+                        <textField key="tableFooterView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Add a caption" textAlignment="natural" minimumFontSize="17" id="VHu-98-2hT">
+                            <rect key="frame" x="0.0" y="419" width="600" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                        <sections>
+                            <tableViewSection id="VW3-hH-3lc">
+                                <cells/>
+                            </tableViewSection>
+                        </sections>
                         <connections>
                             <outlet property="dataSource" destination="xkl-Tj-s5b" id="TTX-LS-dks"/>
                             <outlet property="delegate" destination="xkl-Tj-s5b" id="2xy-ab-I6I"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="Add Photo" id="daX-gX-3uc">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="5IK-bN-lT6"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="7fv-jU-udh">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="xkl-Tj-s5b" id="b7o-ad-9gp"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="addPhotoButton" destination="aKb-ea-9Ig" id="iTS-4O-QSY"/>
+                        <outlet property="captionTextField" destination="VHu-98-2hT" id="EFD-kZ-DIE"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fOy-65-MPs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3496" y="143"/>
+            <point key="canvasLocation" x="4308" y="143"/>
         </scene>
         <!--Timeline Table View Controller-->
         <scene sceneID="Daa-2h-6w6">
@@ -111,7 +133,7 @@
                     <navigationItem key="navigationItem" id="huJ-kJ-5rU">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Lra-Pd-doO">
                             <connections>
-                                <segue destination="xkl-Tj-s5b" kind="show" id="i2S-z7-MsP"/>
+                                <segue destination="3sX-Tl-5VM" kind="presentation" id="i2S-z7-MsP"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -307,15 +329,16 @@
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="qpk-u1-KX3">
                                 <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jJ4-Ug-7De">
                                     <size key="itemSize" width="125" height="125"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="50" height="125"/>
+                                    <size key="headerReferenceSize" width="50" height="50"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="imageCell" id="ng0-Lp-X5d" customClass="ImageCollectionViewCell" customModule="Timeline" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="64" width="125" height="125"/>
+                                        <rect key="frame" x="0.0" y="114" width="125" height="125"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="125" height="125"/>
@@ -333,28 +356,28 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
-                                <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="headerView" id="Vj2-u0-jTd" customClass="ProfileHeaderCollectionReusableView" customModule="Timeline" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="189" width="600" height="125"/>
+                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="headerView" id="Vj2-u0-jTd" customClass="ProfileHeaderCollectionReusableView" customModule="Timeline" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="64" width="600" height="50"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="kGY-Gc-Rnx">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="125"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bio" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5NM-Un-Dtj" userLabel="Bio">
-                                                    <rect key="frame" x="0.0" y="0.0" width="200" height="125"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="200" height="50"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="370-uY-OyP" userLabel="Homepage">
-                                                    <rect key="frame" x="200" y="0.0" width="200" height="125"/>
+                                                    <rect key="frame" x="200" y="0.0" width="200" height="50"/>
                                                     <state key="normal" title="URL"/>
                                                     <connections>
                                                         <action selector="urlButtonTapped:" destination="Vj2-u0-jTd" eventType="touchUpInside" id="j9L-wM-5za"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SIA-8H-Oyi" userLabel="Follow">
-                                                    <rect key="frame" x="400" y="0.0" width="200" height="125"/>
+                                                    <rect key="frame" x="400" y="0.0" width="200" height="50"/>
                                                     <state key="normal" title="Follow"/>
                                                     <connections>
                                                         <action selector="followActionButton:" destination="Vj2-u0-jTd" eventType="touchUpInside" id="QFw-he-eWJ"/>
@@ -656,10 +679,28 @@
             </objects>
             <point key="canvasLocation" x="1946" y="1777"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="jsp-C7-iMx">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3sX-Tl-5VM" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="1lj-ld-4G5">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="xkl-Tj-s5b" kind="relationship" relationship="rootViewController" id="nK3-mq-jM4"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SGz-zN-q6K" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3496" y="143"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="m4G-kz-8lb"/>
+        <segue reference="aSV-3N-UIL"/>
         <segue reference="Cch-f8-kRN"/>
-        <segue reference="sxi-PZ-dEq"/>
     </inferredMetricsTieBreakers>
 </document>
