@@ -10,20 +10,36 @@ import UIKit
 
 class TimelineTableViewController: UITableViewController {
 
+    @IBAction func refreshController(sender: AnyObject) {
+        loadTimelineForUser(UserController.currentUser)
+    }
+    
     override func viewWillAppear(animated: Bool) {
         if UserController.currentUser == nil {
             performSegueWithIdentifier("signupLoginModalSegue", sender: self)
         }
     }
     
+    var posts: [Post] = []
+    
+    func loadTimelineForUser(user: User) {
+        PostController.fetchTimelineForUser(UserController.currentUser) { (post) -> Void in
+            if let posts = post {
+                self.posts = posts
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        if let currentUser = UserController.currentUser {
+            if posts.count > 0 {
+                loadTimelineForUser(currentUser)
+            } else {
+                self.refreshControl?.endRefreshing()
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,25 +49,17 @@ class TimelineTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return posts.count
     }
 
-    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCellWithIdentifier("timelineCell", forIndexPath: indexPath) as! PostTableViewCell
+        let post = posts[indexPath.row]
+        cell.updateWithPost(post)
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.

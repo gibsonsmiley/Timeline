@@ -61,10 +61,12 @@ class ProfileViewController: UIViewController, UICollectionViewDataSource, Profi
     }
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        let header = collectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "headerView", forIndexPath: indexPath) as! ProfileHeaderCollectionReusableView
+        let header = collectionView.dequeueReusableSupplementaryViewOfKind(""/*UICollectionElementKindSectionHeader*/, withReuseIdentifier: "headerView", forIndexPath: indexPath) as! ProfileHeaderCollectionReusableView
         header.updateWithUser(self.user!)
         header.delegate = self
         return header
+        
+        
     }
     
     func userTappedURLButton() {
