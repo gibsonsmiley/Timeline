@@ -10,18 +10,39 @@ import UIKit
 
 class PostDetailTableViewController: UITableViewController {
     
+    @IBOutlet weak var usernameButton: UIButton!
+    @IBOutlet weak var likesLabel: UILabel!
+    @IBOutlet weak var headerImageView: UIImageView!
+    
     var post: Post?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        updateWithPost(post!)
+    }
+    
+    func updateWithPost(post: Post){
+        usernameButton.setTitle("\(post.username)", forState: .Normal)
+        likesLabel.text = "\(post.likes.count) likes"
+        ImageController.imageForIdentifier(post.imageEndPoint) { (image) -> Void in
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.headerImageView.image = image
+            })
+        }
+    }
+    @IBAction func likeButtonTapped(sender: AnyObject) {
+        PostController.addLikeToPost(post!) { (success, post) -> Void in
+            if let post = post {
+                self.post = post
+                self.updateWithPost(post)
+            }
+        }
     }
 
+    @IBAction func addCommentButtonTapped(sender: AnyObject) {
+        
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -29,25 +50,20 @@ class PostDetailTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
+
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return (self.post?.comments.count)!
     }
 
-    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("commentCell", forIndexPath: indexPath) as! PostCommentTableViewCell
 
         // Configure the cell...
 
         return cell
     }
-    */
 
     /*
     // Override to support conditional editing of the table view.
