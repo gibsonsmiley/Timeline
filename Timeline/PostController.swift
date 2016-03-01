@@ -108,9 +108,11 @@ class PostController {
     
     static func deleteLike(like: Like, completion: (success: Bool, post: Post) -> Void) {
         like.delete()
-        PostController.postFromIdentifier(like.identifier!) { (post) -> Void in ///** !!! **///
-            completion(success: true, post: post!) ///** !!! **///
-        }
+//            PostController.postFromIdentifier(like.postIdentifier) { (post) -> Void in
+//                if let post = post {
+//                    completion(success: true, post: post)
+//            }
+//        }
     }
     
     static func orderPosts(posts: [Post]) -> [Post] {
