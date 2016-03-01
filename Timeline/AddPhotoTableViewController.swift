@@ -74,11 +74,18 @@ class AddPhotoTableViewController: UITableViewController, UIImagePickerControlle
             if self.image != nil {
                 PostController.addPost(image, caption: self.caption, completion: { (success, post) -> Void in
                     self.dismissViewControllerAnimated(true, completion: nil)
-                    })
-                }
+                })
+            } else {
+                let failedAlert = UIAlertController(title: "Failed", message: "You need to select a photo if you want to submit a post, idiot", preferredStyle: .Alert)
+                failedAlert.addAction(UIAlertAction(title: "OK... sorry", style: .Default, handler: nil))
+                self.presentViewController(failedAlert, animated: true, completion: nil)
             }
         }
+    }
     
+    @IBAction func cancelButtonTapped(sender: AnyObject) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     
     }
     

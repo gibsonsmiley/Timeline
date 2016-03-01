@@ -40,7 +40,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Add Photo" id="daX-gX-3uc">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="5IK-bN-lT6"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="5IK-bN-lT6">
+                            <connections>
+                                <action selector="cancelButtonTapped:" destination="xkl-Tj-s5b" id="cxr-mi-ODq"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="7fv-jU-udh">
                             <connections>
                                 <action selector="saveButtonTapped:" destination="xkl-Tj-s5b" id="b7o-ad-9gp"/>
