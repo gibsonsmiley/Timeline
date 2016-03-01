@@ -43,7 +43,7 @@ class PostController {
     
     static func addPost(image: UIImage, caption: String?, completion: (success: Bool, post: Post?) -> Void) {
         ImageController.uploadImage(image) { (identifier) -> Void in
-            if let identifier = identifier {
+             if let identifier = identifier {
                 var post = Post(imageEndPoint: identifier, caption: caption, username: UserController.currentUser.username)
                 post.save()
                 completion(success: true, post: post)
@@ -80,7 +80,7 @@ class PostController {
         post.delete()
     }
     
-    static func addCommentWithTextToPost(string: String, post: Post, completion: (success: Bool, post: Post?) -> Void) {
+    static func addCommentWithTextToPost(text: String, post: Post, completion: (success: Bool, post: Post?) -> Void) {
         if let postIdentifier = post.identifier {
             var comment = Comment(username: UserController.currentUser.username, text: text, postIdentifier: postIdentifier)
             comment.save()
@@ -108,12 +108,12 @@ class PostController {
     
     static func deleteLike(like: Like, completion: (success: Bool, post: Post) -> Void) {
         like.delete()
-        PostController.postFromIdentifier(like.identifier) { (post) -> Void in
-            completion(success: true, post: post)
+        PostController.postFromIdentifier(like.identifier!) { (post) -> Void in ///** !!! **///
+            completion(success: true, post: post!) ///** !!! **///
         }
     }
     
-    static func orderPosts(posts: [Post] -> [Post]) {
+    static func orderPosts(posts: [Post]) -> [Post] {
         return posts.sort({$0.0.identifier > $0.1.identifier})
     }
     

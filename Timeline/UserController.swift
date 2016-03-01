@@ -10,47 +10,58 @@ import Foundation
 
 class UserController {
     
+    private static let kUser = "userKey"
+    
     static var currentUser: User! {
-//        return nil
-        return UserController.mockUsers().first!
+        get{
+        guard let uid = FirebaseController.base.authData?.uid, let userDictionary = NSUserDefaults.standardUserDefaults().valueForKey(kUser) as? [String: AnyObject] else { return nil }
+        return User(json: userDictionary, identifier: uid)
+        }
+        set {
+            if let newValue = newValue {
+                NSUserDefaults.standardUserDefaults().setValue(newValue.jsonValue, forKey: kUser)
+                NSUserDefaults.standardUserDefaults().synchronize()
+            } else {
+                NSUserDefaults.standardUserDefaults().removeObjectForKey(kUser)
+                NSUserDefaults.standardUserDefaults().synchronize()
+            }
+        }
     }
     
-    static let sharedController = UserController()
-    
     static func userForIdentifier(identifier: String, completion: (user: User?) -> Void) {
-        completion(user: mockUsers().first)
+        
     }
     
     static func fetchAllUsers(completion: (user: [User]) -> Void) {
-        completion(user: mockUsers())
+        
     }
     
     static func followUser(user: User, completion: (success: Bool) -> Void) {
-        completion(success: true)
+        
     }
     
     static func unfollowUser(user: User, completion: (success: Bool) -> Void) {
-        completion(success: true)
+        
     }
     
     static func userFollowsUser(user1: User, user2: User, completion: (follows: Bool) -> Void) {
-        completion(follows: true)
+        
     }
     
     static func followedByUser(user: User, completion: (followed: [User]?) -> Void) {
-        completion(followed: mockUsers())
+        
     }
     
     static func authenticateUser(email: String, password: String, completion: (sucess: Bool, user: User?) -> Void) {
-        completion(sucess: true, user: mockUsers().first)
+        
     }
     
     static func createUser(email: String, username: String, password: String, bio: String?, url: String?, completion: (sucess: Bool, user: User?) -> Void) {
-        completion(sucess: true, user: mockUsers().first)
+        
     }
     
     static func updateUser(user: User, username: String, bio: String?, url: String?, completion: (success: Bool, user: User?) -> Void) {
-        completion(success: true, user: mockUsers().first)
+        
     }
     
     static func logOutCurrentUser() {
