@@ -54,7 +54,7 @@ class PostController {
     }
     
     static func postFromIdentifier(identifier: String, completion: (post: Post?) -> Void) {
-        FirebaseController.dataAtEndpoint("/posts/\(identifier)") { (data) -> Void in
+        FirebaseController.dataAtEndpoint("posts/\(identifier)") { (data) -> Void in
             if let data = data as? [String: AnyObject] {
                 let post = Post(json: data, identifier: identifier)
                 completion(post: post)

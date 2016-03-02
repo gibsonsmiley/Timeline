@@ -62,7 +62,7 @@ class LoginSignupViewController: UIViewController {
     var user: User?
     
     func updateWithUser(user: User){
-        self.user = UserController.currentUser
+        self.user = user
         mode = .Edit
     }
 
@@ -72,43 +72,63 @@ class LoginSignupViewController: UIViewController {
             bioTextField.hidden = true
             websiteTextField.hidden = true
             usernameTextField.hidden = true
-            loginSignupButton.titleLabel?.text = "Log In"
+            loginSignupButton.setTitle("Log In", forState: .Normal)
         case .Signup:
-            loginSignupButton.titleLabel?.text = "Sign Up"
+            loginSignupButton.setTitle("Sign Up", forState: .Normal)
         case .Edit:
             if let user = self.user {
             usernameTextField.text = user.username
             bioTextField.text = user.bio
             websiteTextField.text = user.url
             }
-            loginSignupButton.titleLabel?.text = "Save changes"
+            loginSignupButton.setTitle("Save Changes", forState: .Normal)
             emailtextField.hidden = true
             passwordTextField.hidden = true
         }
     }
     
     @IBAction func actionButtonTapped(sender: AnyObject) {
-        if fieldsAreValid != false {
-            dismissViewControllerAnimated(true, completion: nil)
+        if fieldsAreValid {
+            switch mode {
+            case .Login:
+                UserController.authenticateUser(self.emailtextField.text!, password: passwordTextField.text!, completion: { (success, user) -> Void in
+                    if success, let _ = user {
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                    } else {
+                        self.presentValidationAlertWithTitle("Unable to Log In", message: "Please check your information and try again.")
+                    }
+                })
+            case .Signup:
+                UserController.createUser(emailtextField.text!, username: usernameTextField.text!, password: passwordTextField.text!, bio: bioTextField.text, url: websiteTextField.text, completion: { (success, user) -> Void in
+                    if success, let _ = user {
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                    } else {
+                        self.presentValidationAlertWithTitle("Unable to Signup", message: "Please check your information and try again.")
+                    }
+                })
+            case .Edit:
+                UserController.updateUser(self.user!, username: self.usernameTextField.text!, bio: self.bioTextField.text, url: self.websiteTextField.text, completion: { (success, user) -> Void in
+                    
+                    if success {
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                    } else {
+                        self.presentValidationAlertWithTitle("Unable to Update User", message: "Please check your information and try again.")
+                    }
+                })
+            }
         } else {
-            createAlert("A username, email, and password are all required to create an account.", success: false)
-        }
-    }
-    func createAlert(alertMessage: String, success: Bool) {
-        var titleString = ""
-        if success == true {
-            titleString = "Success"
-        } else {
-            titleString = "Error"
+            presentValidationAlertWithTitle("Missing Information", message: "Please check your information and try again.")
         }
         
-        let alertController = UIAlertController(title: titleString, message: alertMessage, preferredStyle: .Alert)
-        let okAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-        alertController.addAction(okAction)
-        
-        presentViewController(alertController, animated: true, completion: nil)
     }
     
+    func presentValidationAlertWithTitle(title: String, message:String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+        
+        presentViewController(alert, animated: true, completion: nil)
+    }
     
     /*
     // MARK: - Navigation

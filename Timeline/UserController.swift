@@ -29,7 +29,7 @@ class UserController {
     }
     
     static func userForIdentifier(identifier: String, completion: (user: User?) -> Void) {
-        FirebaseController.dataAtEndpoint("/posts/\(identifier)") { (data) -> Void in
+        FirebaseController.dataAtEndpoint("users/\(identifier)") { (data) -> Void in
             if let data = data as? [String: AnyObject] {
                 let user = User(json: data, identifier: identifier)
                 completion(user: user)
@@ -40,16 +40,18 @@ class UserController {
     }
     
     static func fetchAllUsers(completion: (users: [User]) -> Void) {
-        FirebaseController.base.childByAppendingPath("users").observeSingleEventOfType(.Value, withBlock: { (snapshot) -> Void in
-            if let userDictionaries = snapshot.value as? [String: AnyObject] {
+        FirebaseController.dataAtEndpoint("users") { (data) -> Void in
+            if let userDictionaries = data as? [String: AnyObject] {
                 let users = userDictionaries.flatMap({User(json: $0.1 as! [String: AnyObject], identifier: $0.0)})
                 completion(users: users)
+            } else {
+                completion(users: [])
             }
-        })
+        }
     }
     
     static func followUser(user: User, completion: (success: Bool) -> Void) {
-        FirebaseController.base.childByAppendingPath("/users/\(currentUser.identifier)/follows/\(user.identifier!)").setValue(true)
+        FirebaseController.base.childByAppendingPath("users/\(currentUser.identifier)/follows/\(user.identifier!)").setValue(true)
         completion(success: true)
     }
     
@@ -59,15 +61,42 @@ class UserController {
     }
     
     static func userFollowsUser(user1: User, user2: User, completion: (follows: Bool) -> Void) {
-        
+        FirebaseController.dataAtEndpoint("users/\(user1.identifier)/follows/\(user2.identifier)") { (data) -> Void in
+            if let _ = data {
+                completion(follows: true)
+            } else {
+                completion(follows: false)
+            }
+        }
     }
     
     static func followedByUser(user: User, completion: (followed: [User]?) -> Void) {
-        
+        FirebaseController.dataAtEndpoint("users/\(user.identifier)/follows") { (data) -> Void in
+            if let json = data as? [String: AnyObject] {
+                var users: [User] = []
+                for userJson in json {
+                    userForIdentifier(userJson.0, completion: { (user) -> Void in
+                        if let user = user {
+                            users.append(user)
+                            completion(followed: users)
+                        }
+                    })
+                }
+            } else {
+                completion(followed: [])
+            }
+        }
     }
     
     static func authenticateUser(email: String, password: String, completion: (sucess: Bool, user: User?) -> Void) {
-        
+            FirebaseController.base.authUser(email, password: password, withCompletionBlock: { (error, authData) -> Void in
+                if let error = error {
+                    print("\(error.localizedDescription)")
+                    completion(sucess: false, user: nil)
+                } else {
+                    completion(sucess: true, user: UserController.currentUser)
+                }
+            })
     }
     
     static func createUser(email: String, username: String, password: String, bio: String?, url: String?, completion: (sucess: Bool, user: User?) -> Void) {
@@ -75,17 +104,30 @@ class UserController {
             if let error = error {
                 print("\(error.localizedDescription)")
             } else {
-                let uid = results["uid"]
+                if let uid = results["uid"] as? String {
+                    var user = User(username: username, bio: bio, url: url, identifier: uid)
+                    user.save()
+                }
             }
         }
     }
     
     static func updateUser(user: User, username: String, bio: String?, url: String?, completion: (success: Bool, user: User?) -> Void) {
-        
+        var updatedUser = User(username: user.username, bio: bio, url: url, identifier: user.identifier)
+            updatedUser.save()
+        UserController.userForIdentifier(user.identifier!) { (user) -> Void in
+            if let user = user {
+                currentUser = user
+                completion(success: true, user: user)
+            } else {
+                completion(success: false, user: user)
+            }
+        }
     }
     
     static func logOutCurrentUser() {
-        
+        FirebaseController.base.unauth()
+        UserController.currentUser = nil
     }
     
     static func mockUsers() -> [User] {
